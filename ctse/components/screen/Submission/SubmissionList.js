@@ -1,9 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { db } from "../../firebase-config/firebase-config"
 // const [isClicked, setIsClicked] = useState(false);
 const SubmissionList = () => {
+  const navigate = useNavigation();
 
   const [submissions, setSubmissions] = useState([]);
   // const [submissions, setSubmissions] = useState([
@@ -17,6 +19,10 @@ const SubmissionList = () => {
   const viewSubmission = (submission) => {
     console.log(`Viewing submission ${submission.topic}...`);
     // setIsClicked(true);
+  };
+
+  const goToAddSubmission = () => {
+    navigate.navigate('Add Submission');
   };
 
   const handleDelete = (id) => {
@@ -62,6 +68,12 @@ const SubmissionList = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Submission List</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={goToAddSubmission}
+      >
+        <Text style={styles.buttonText}>Add Submission</Text>
+      </TouchableOpacity>
       <TextInput
         style={styles.searchBar}
         placeholder="Search Submissions..."
@@ -88,6 +100,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '#e5f5ff',
+  },
+  button: {
+    backgroundColor: '#1e90ff',
+    padding: 8,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 10,
+    // alignSelf: 'flex-end',
+    marginBottom: 10,
   },
   heading: {
     fontSize: 24,
