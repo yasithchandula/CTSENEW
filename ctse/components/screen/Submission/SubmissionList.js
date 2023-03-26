@@ -49,9 +49,9 @@ const SubmissionList = () => {
           <Text style={styles.cardText}>{item.asName}</Text>
           <Text style={styles.cardText}>Subject Code: {item.mCode}</Text>
           {/* <Text style={styles.cardText}>Date: {item.date}</Text> */}
-          {/* <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
-              style={[styles.button, styles.viewButton]}
+              style={[styles.viewButton]}
               onPress={() => viewSubmission(item)}
             >
               <Text style={styles.viewButtonText}>View</Text>
@@ -59,7 +59,7 @@ const SubmissionList = () => {
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
               <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
         </View>
       );
     } else {
