@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, DatePickerAndroid, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, DatePickerAndroid, Text, ToastAndroid } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebase-config/firebase-config"
 
 export default function Form() {
   const [input1, setInput1] = useState('');
@@ -9,7 +10,7 @@ export default function Form() {
   const [input3, setInput3] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [data,setData]=useState('');
+  // const [data, setData] = useState({});
   const DatCollectinRef = collection(db, "Submission");
 
 
@@ -33,13 +34,13 @@ export default function Form() {
   const handleSubmit = async () => {
     // handle form submission
     try {
-      setData("asName",input1,"mName",input2,"mCode",input3);
-      await addDoc(DatCollectinRef, {
-        asName:data.asName,
-        mName: data.mName,
-        mCode:data.mCode,
-        date: data.date,
+      let res = await addDoc(DatCollectinRef, {
+        asName: input1,
+        mName: input2,
+        mCode: input3,
+        date: date,
       });
+      // console.log(res);
       if (addDoc) {
         ToastAndroid.show("successfully submited!", ToastAndroid.SHORT); //application toast message
       }
@@ -87,16 +88,16 @@ export default function Form() {
           value={input3}
         />
         <View style={styles.dateInputContainer}>
-        <Button onPress={showDateTimePicker} title="Select Date" />
-      {showPicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />)}
+          <Button onPress={showDateTimePicker} title="Select Date" />
+          {showPicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />)}
         </View>
         <Button title="Submit" onPress={handleSubmit} />
       </View>
@@ -131,13 +132,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
-  formContainer: { 
+  formContainer: {
     width: '80%',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     paddingVertical: 20,
     paddingHorizontal: 30,
-    paddingTop:10,
+    paddingTop: 10,
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -159,6 +160,6 @@ const styles = StyleSheet.create({
   },
   dateInputContainer: {
     width: '100%',
-    marginBottom:16
+    marginBottom: 16
   },
 });

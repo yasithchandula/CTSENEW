@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { db } from "../../firebase-config/firebase-config"
 // const [isClicked, setIsClicked] = useState(false);
 const SubmissionList = () => {
-  
-  const [submissions, setSubmissions] = useState([
-    { id: '1', topic: 'Assignment 1', subjectCode: 'COMP101', date: '2022-01-01' },
-    { id: '2', topic: 'Quiz 1', subjectCode: 'COMP101', date: '2022-01-08' },
-    { id: '3', topic: 'Lab 1', subjectCode: 'COMP101', date: '2022-01-15' },
-  ]);
+
+  const [submissions, setSubmissions] = useState([]);
+  // const [submissions, setSubmissions] = useState([
+  //   { id: '1', topic: 'Assignment 1', subjectCode: 'COMP101', date: '2022-01-01' },
+  //   { id: '2', topic: 'Quiz 1', subjectCode: 'COMP101', date: '2022-01-08' },
+  //   { id: '3', topic: 'Lab 1', subjectCode: 'COMP101', date: '2022-01-15' },
+  // ]);
   const [searchQuery, setSearchQuery] = useState('');
-  
+
 
   const viewSubmission = (submission) => {
     console.log(`Viewing submission ${submission.topic}...`);
@@ -21,28 +24,38 @@ const SubmissionList = () => {
     // setIsClicked(true);
   }
 
-  const renderSubmissionCard = ({ item }) => {
-    if (item.topic.toLowerCase().includes(searchQuery.toLowerCase())) {
+  useEffect(() => {
+    getDocs(collection(db, 'Submission'))
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setSubmissions([...submissions, { id: doc.id, ...doc.data() }]);
+        });
+      });
+  }, []);
+
+  const RenderSubmissionCard = ({ item }) => {
+    // console.log(item);
+    if (item.asName.toLowerCase().includes(searchQuery.toLowerCase())) {
       return (
-        <View style={styles.card}>
-        <Text style={styles.cardText}>{item.topic}</Text>
-        <Text style={styles.cardText}>Subject Code: {item.subjectCode}</Text>
-        <Text style={styles.cardText}>Date: {item.date}</Text>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={[styles.button, styles.viewButton]}
-            onPress={() => viewSubmission(item)}
-          >
-            <Text style={styles.viewButtonText}>View</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
-            <Text style={styles.deleteButtonText}>Delete</Text>
-          </TouchableOpacity>
+        <View key={item.id}>
+          <Text style={styles.cardText}>{item.asName}</Text>
+          <Text style={styles.cardText}>Subject Code: {item.mCode}</Text>
+          {/* <Text style={styles.cardText}>Date: {item.date}</Text> */}
+          {/* <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              style={[styles.button, styles.viewButton]}
+              onPress={() => viewSubmission(item)}
+            >
+              <Text style={styles.viewButtonText}>View</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+              <Text style={styles.deleteButtonText}>Delete</Text>
+            </TouchableOpacity>
+          </View> */}
         </View>
-      </View>
       );
     } else {
-      return null;
+      return <View />;
     }
   };
 
@@ -57,9 +70,14 @@ const SubmissionList = () => {
       />
       <FlatList
         data={submissions}
-        renderItem={renderSubmissionCard}
+        // renderItem={renderSubmissionCard}
+        renderItem={({ item }) => (
+          <RenderSubmissionCard
+            item={item}
+          />
+        )}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
+      // contentContainerStyle={styles.list}
       />
     </View>
   );
@@ -92,55 +110,48 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 10,
     elevation: 3,
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    height:'150px'
+    height: '150px'
   },
   cardText: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
-    alignContent:'center'
+    alignContent: 'center'
   },
   viewButton: {
     // backgroundColor: isClicked ? 'green' : 'transparent',
     borderColor: 'green',
-    borderWidth:1,
+    borderWidth: 1,
     padding: 8,
-    paddingLeft:22,
-    paddingRight:22,
+    paddingLeft: 22,
+    paddingRight: 22,
     borderRadius: 10,
     alignSelf: 'flex-end',
-    left:10,
-    marginTop:5,
+    left: 10,
+    marginTop: 5,
   },
   deleteButton: {
     // backgroundColor: isClicked ? 'red' : 'transparent',
     borderColor: 'red',
     borderWidth: 1,
     padding: 8,
-    paddingLeft:20,
-    paddingRight:20,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderRadius: 10,
-    position: 'absolute', 
-    bottom: 0, 
-    right: 10, 
+    position: 'absolute',
+    bottom: 0,
+    right: 10,
   },
   deleteButtonText: {
     // color: isClicked ? '#fff' : 'red',
-    alignContent:'center',
+    alignContent: 'center',
     color: 'red',
     fontWeight: 'bold',
   },
 
   viewButtonText: {
-    
-    alignContent:'center',
+
+    alignContent: 'center',
     color: 'green',
     fontWeight: 'bold',
   },

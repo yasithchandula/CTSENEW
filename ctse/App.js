@@ -30,7 +30,7 @@ export default function App() {
       }}
     >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Add Submission">
+        <Stack.Navigator initialRouteName="Submission List">
           <Stack.Screen name="Splash" component={SplashScreen} />
           <Stack.Screen name="Add User" component={AddUser} />
           <Stack.Screen name="User List" component={UserList} />
