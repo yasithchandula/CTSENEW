@@ -20,6 +20,18 @@ const SubmissionList = () => {
   const viewSubmission = (submission) => {
     console.log(`Viewing submission ${submission.topic}...`);
     // setIsClicked(true);
+    navigate.navigate('View Submission', {
+      submission: submission,
+    });
+  };
+
+  const updateSubmission = (submission) => {
+    // console.log(`Updating submission ${submission.topic}...`);
+    console.log(submission);
+
+    navigate.navigate('Update Submission', {
+      submission: submission,
+    });
   };
 
   const goToAddSubmission = () => {
@@ -57,6 +69,12 @@ const SubmissionList = () => {
               onPress={() => viewSubmission(item)}
             >
               <Text style={styles.viewButtonText}>View</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.updateButton]}
+              onPress={() => updateSubmission(item)}
+            >
+              <Text style={styles.viewButtonText}>Update</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
               <Text style={styles.deleteButtonText}>Delete</Text>
@@ -149,6 +167,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 8,
     paddingLeft: 22,
+    paddingRight: 22,
+    borderRadius: 10,
+    alignSelf: 'flex-end',
+    left: 10,
+    marginTop: 5,
+  },
+  updateButton: {
+    // backgroundColor: isClicked ? 'green' : 'transparent',
+    borderColor: 'green',
+    borderWidth: 1,
+    padding: 8,
+    paddingLeft: 22,
+    marginLeft: 20,
     paddingRight: 22,
     borderRadius: 10,
     alignSelf: 'flex-end',

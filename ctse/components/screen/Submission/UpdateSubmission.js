@@ -5,7 +5,7 @@ import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase-config/firebase-config"
 import { useNavigation } from '@react-navigation/native';
 
-export default function ViewSub({ navigation, route: { params: param } }) {
+export default function UpdateSub({ navigation, route: { params: param } }) {
   // const navigate = useNavigation();
 
   const [input1, setInput1] = useState(param.submission.asName);
@@ -70,7 +70,7 @@ export default function ViewSub({ navigation, route: { params: param } }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>View submission</Text>
+        <Text style={styles.headerText}>Add a submission</Text>
       </View>
       <View style={styles.formContainer}>
         <TextInput
@@ -78,23 +78,20 @@ export default function ViewSub({ navigation, route: { params: param } }) {
           placeholder="Enter Assignment Name"
           onChangeText={setInput1}
           value={input1}
-          editable={false}
         />
         <TextInput
           style={styles.input}
           placeholder="Enter Module Name"
           onChangeText={setInput2}
           value={input2}
-          editable={false}
         />
         <TextInput
           style={styles.input}
           placeholder="Enter Module Code"
           onChangeText={setInput3}
           value={input3}
-          editable={false}
         />
-        {/* <View style={styles.dateInputContainer}>
+        <View style={styles.dateInputContainer}>
           <Button onPress={showDateTimePicker} title="Select Date" />
           {showPicker && (
             <DateTimePicker
@@ -105,8 +102,8 @@ export default function ViewSub({ navigation, route: { params: param } }) {
               display="default"
               onChange={onChange}
             />)}
-        </View> */}
-        {/* <Button title="Submit" onPress={handleSubmit} /> */}
+        </View>
+        <Button title="Submit" onPress={handleSubmit} />
       </View>
     </View>
   );

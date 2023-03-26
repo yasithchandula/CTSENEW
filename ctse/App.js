@@ -19,6 +19,8 @@ import ScheduleList from "./components/screen/TimeTable/ScheduleList";
 import AddSubmission from './components/screen/Submission/AddSubmission'
 import SubmissionList from './components/screen/Submission/SubmissionList'
 import SubmitSubmission from './components/screen/Submission/SubmitSubmission'
+import UpdateSub from "./components/screen/Submission/UpdateSubmission";
+import ViewSub from "./components/screen/Submission/ViewSubmission";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -46,11 +48,14 @@ export default function App() {
           <Stack.Screen name="Schedule List" component={ScheduleList} />
 
           {/*Yasith*/}
-          <Stack.Screen name="Add Submission" component={AddSubmission}/>
-          <Stack.Screen name="Submission List" component={SubmissionList}/>
-          <Stack.Screen name="Submit Submission" component={SubmitSubmission}/>
+          <Stack.Screen name="Add Submission" component={AddSubmission} />
+          <Stack.Screen name="Submission List" component={SubmissionList} />
+          <Stack.Screen name="Submit Submission" component={SubmitSubmission} />
+          <Stack.Screen name="Update Submission" component={UpdateSub} />
+          <Stack.Screen name="View Submission" component={ViewSub} />
 
-          
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </View>
