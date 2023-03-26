@@ -31,11 +31,13 @@ const SubmissionList = () => {
   }
 
   useEffect(() => {
+    let subs = []
     getDocs(collection(db, 'Submission'))
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          setSubmissions([...submissions, { id: doc.id, ...doc.data() }]);
+          subs.push({ ...doc.data(), id: doc.id })          
         });
+        setSubmissions(subs);
       });
   }, []);
 
