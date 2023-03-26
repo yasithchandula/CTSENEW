@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TextInput, TouchableOpacity } from 'react-native';
@@ -6,6 +6,7 @@ import { db } from "../../firebase-config/firebase-config"
 // const [isClicked, setIsClicked] = useState(false);
 const SubmissionList = () => {
   const navigate = useNavigation();
+  const isFocused = useIsFocused();
 
   const [submissions, setSubmissions] = useState([]);
   // const [submissions, setSubmissions] = useState([
@@ -32,14 +33,15 @@ const SubmissionList = () => {
 
   useEffect(() => {
     let subs = []
+    console.log('Getting submissions...');
     getDocs(collection(db, 'Submission'))
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          subs.push({ ...doc.data(), id: doc.id })          
+          subs.push({ ...doc.data(), id: doc.id })
         });
         setSubmissions(subs);
       });
-  }, []);
+  }, [isFocused]);
 
   const RenderSubmissionCard = ({ item }) => {
     // console.log(item);

@@ -3,8 +3,10 @@ import { View, TextInput, Button, StyleSheet, DatePickerAndroid, Text, ToastAndr
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase-config/firebase-config"
+import { useNavigation } from '@react-navigation/native';
 
-export default function Form() {
+export default function Form({ navigation }) {
+  // const navigate = useNavigation();
   const [input1, setInput1] = useState('');
   const [input2, setInput2] = useState('');
   const [input3, setInput3] = useState('');
@@ -43,6 +45,7 @@ export default function Form() {
       // console.log(res);
       if (addDoc) {
         ToastAndroid.show("successfully submited!", ToastAndroid.SHORT); //application toast message
+        navigation.navigate('Submission List');
       }
     } catch (e) {
       //error handling
