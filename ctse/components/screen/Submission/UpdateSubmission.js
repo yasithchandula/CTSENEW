@@ -14,7 +14,7 @@ export default function UpdateSub({ navigation, route: { params: param } }) {
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
   // const [data, setData] = useState({});
-  const DatCollectinRef = collection(db, "Submission");
+  const DatCollectinRef = doc(db, "Submission", param.submission.id);
 
 
 
@@ -37,17 +37,17 @@ export default function UpdateSub({ navigation, route: { params: param } }) {
   const handleSubmit = async () => {
     // handle form submission
     try {
-      let res = await doc(param.submission.id).updateDoc(DatCollectinRef, {
+      let res = await updateDoc(DatCollectinRef, {
         asName: input1,
         mName: input2,
         mCode: input3,
         date: date,
       });
       // console.log(res);
-      if (updateDoc) {
-        ToastAndroid.show("successfully submited!", ToastAndroid.SHORT); //application toast message
-        navigation.navigate('Submission List');
-      }
+      // if (updateDoc) {
+      ToastAndroid.show("successfully submited!", ToastAndroid.SHORT); //application toast message
+      navigation.navigate('Submission List');
+      // }
     } catch (e) {
       //error handling
       console.error("Error adding document: ", e);

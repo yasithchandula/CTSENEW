@@ -27,7 +27,7 @@ const SubmissionList = () => {
 
   const updateSubmission = (submission) => {
     // console.log(`Updating submission ${submission.topic}...`);
-    console.log(submission);
+    // console.log(submission);
 
     navigate.navigate('Update Submission', {
       submission: submission,
